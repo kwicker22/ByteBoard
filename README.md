@@ -22,9 +22,9 @@ For this module, your mastery check is to build a project that exercises this ab
 Here are the baseline requirements. Your application must:
 
 - Allow Users to:
-  - [ ] sign-up
-  - [ ] login
-  - [ ] logout
+  - [x ] sign-up
+  - [ x] login
+  - [x ] logout
   - [ ] create new data in the system that is associated with the user
   - [ ] update data in the system that is associated with the user
   - [ ] read data from the system that is associated with the user
