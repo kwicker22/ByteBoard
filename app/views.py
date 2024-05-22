@@ -38,6 +38,12 @@ def logoutUser(request):
 
 
 @login_required(login_url="login/")
+def base(request):
+    context = {}
+    return render(request, "base.html", context)
+
+
+@login_required(login_url="login/")
 def home(request):
     jobs = Job.objects.filter(is_published=True)
     context = {"jobs": jobs}
@@ -125,8 +131,7 @@ def JobListing(request):
                 job.is_published,
                 date_published,
             )
-            group = Group.objects.get(name="user")
-            messages.success(request, (f"Job was created for {group}"))
+            messages.success(request, (f"Job was created for {request.user}"))
             return redirect("recruiterdash")
 
     context = {"form": form}

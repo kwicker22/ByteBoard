@@ -25,14 +25,13 @@ class Job(models.Model):
     description = models.TextField()
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    job_type = models.CharField(choices=JobType, max_length=9)
+    job_type = models.CharField(choices=JobType, max_length=9, null=True)
     # category = models.ForeignKey(
     #     Category, related_name="Category", on_delete=models.CASCADE
     # )
     salary = models.PositiveIntegerField()
     is_published = models.BooleanField(default=False)
     date_published = models.DateField()
-    randomfield = models.TextField(null=True)
 
     def __str__(self):
         return self.title

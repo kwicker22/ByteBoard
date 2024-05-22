@@ -10,6 +10,7 @@ urlpatterns = [
     path("recruiter/", recruiterDash, name="recruiterdash"),
     path("create_job/", JobListing, name="create-job"),
     path("recruiter_register/", registerRecruiter, name="recruiter_register"),
-    path("", home, name="home"),
+    path("home", home, name="home"),
+    path("", base, name="base"),
     path("admin/", admin.site.urls),
 ]

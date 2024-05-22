@@ -1,61 +1,46 @@
 {% extends "base.html" %}
 
 {%block content%}
+<nav>
+<div class= "site-navbar">
+          
+  <ul class="no-links">
+    <li> <h1>Welcome to ByteBoard</h1> </li>
+    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+     {% comment %} <li><a href="{% url 'job-list' %}">Job Listings</a></li>  {% endcomment %}
+  </ul>
 
-<main> 
-    <div> 
-        
-        <header class="site-navbar mt-3">
-            <div class="container-fluid">
-              <div class="row align-items-center">
-                <h1>Welcome to ByteBoard</h1>
-                <nav class="mx-auto site-navigation">
-                  <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    {% comment %} <li><a href="{% url 'job-list' %}">Job Listings</a></li> {% endcomment %}
-                    <li><a href="#">Contact</a></li>
-                  </ul>
-                </nav>
-                <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
-                  <div class="ml-auto">
-                    <div class="site-navigation fix">
-                      <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-        
-                        {% if user.is_authenticated and user.is_staff  %}
-                        <a href="{% url 'create-job' %}"
-                          class="js-clone-nav pr-3 btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span
-                            class="mr-2 icon-add"></span>Publish Job</a>
-        
-                          
-                            <li class="pr-3 has-children">
-                              <a>Dashboard</a> 
-                              <ul class="dropdown">
-                                <li><a href="{% url 'recruiterdash' %}">Dashboard</a></li>
-                                <li><a href="{% url 'logout' %}">Logout</a></li>
-                              </ul>
-                            </li>
-        
-                        {% elif user.is_authenticated %}
-        
-                        <li class="pr-3 has-children">
-                          <a>Dashboard</a> 
-                          <ul class="dropdown">
-                            <li><a href="{% url 'userdash' %}">Dashboard</a></li>
-                            <li><a href="{% url 'logout' %}">Logout</a></li>
-                          </ul>
-                        </li>
-                        {% endif %}
-                      </ul>
-                    </div>
-        
-                <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span
-                    class="icon-menu h3 m-0 p-0 mt-2"></span></a>
-              </div>
-            </div>
-          </header>
-          <h1>Welcome to ByteBoard</h1>
+        {% if user.is_authenticated and user.is_staff  %}
+        <a href="{% url 'create-job' %}"><span class="mr-2 icon-add"></span>Publish Job</a>
 
-<main> {%block extends%} {%endblock extends%} </main>
+          
+            <li class="actual-links">
+              <a>Dashboard</a> 
+              <ul class="dropdown">
+                <li><a href="{% url 'recruiterdash' %}">Dashboard</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+            </li>
+
+        {% elif user.is_authenticated %}
+
+        <li class="dropdown-container">
+          <a>Dashboard</a> 
+          <ul class="dropdown">
+            <li><a href="{% url 'userdash' %}">Dashboard</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+
+</div>
+</nav>
+<body>    
+<h1>Welcome to ByteBoard</h1>
+</body>
+
+
+<main>{%block extends%} {%endblock extends%} </main>
             
 {%endblock content%}

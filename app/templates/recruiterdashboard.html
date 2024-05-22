@@ -3,5 +3,11 @@
 {%block extends%}
 
 <h2> Recruiter Dashboard </h2>
-        {{jobs}}
+
+{%for listing in jobs%}
+       <div> {{listing.company.username}}</div>
+       <div> {{listing.salary}}<div>
+       <div> {{listing}}
+{% endfor%}
+
 {%endblock extends%}
