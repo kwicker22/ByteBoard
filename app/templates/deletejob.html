@@ -1,0 +1,10 @@
+{% extends "home.html" %}
+
+{%block content%}
+
+<form action="{% url 'delete' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete Job">
+</form>
+
+{%endblock content%}

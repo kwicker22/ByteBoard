@@ -13,4 +13,5 @@ urlpatterns = [
     path("home", home, name="home"),
     path("", base, name="base"),
     path("admin/", admin.site.urls),
+    path("delete/", deleteJob, name="delete"),
 ]

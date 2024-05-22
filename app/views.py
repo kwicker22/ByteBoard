@@ -139,15 +139,20 @@ def JobListing(request):
 
 
 def deleteJob(request):
-    messages.success(request, ("Job has been successfully deleted"))
     job_listing = Job.objects.get(id=request.job.id)
     if request.method == "POST":
-        form = deleteJob(request.Post)
-        if form.is_valid():
-            form.save()
-            job_listing.delete()
-            messages.success(request, ("Job listing has been deleted"))
-            return redirect("recruiter")
+        job_listing.delete()
+        messages.success(request, ("Job listing has been deleted"))
+        return redirect("recruiter")
 
-    context = {"form": form}
-    return render(request, ".html", context)
+    context = {"job_listing": job_listing}
+    return render(request, "home.html", context)
+
+
+def jobview(request):
+    job_listings = Job.objects.all()
+    context = {"job_listings": job_listings}
+    return render(request, "jobview.html", context)
+
+def updateJob(request):
+    
