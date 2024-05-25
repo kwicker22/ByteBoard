@@ -7,10 +7,12 @@
 
 <section class = "background">
        {% comment %} <p>hey</p> {% endcomment %}
-
-       <h2> Search </h2>
+       <div class = "view-header-container"> 
+            <h2 class = "view-header"> Search Results:</h2>
+       </div>
      
       <div class="job_view_container">
+       
         {% for job in page_obj%}
         <div class = "border">
           

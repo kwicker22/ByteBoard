@@ -1,10 +1,17 @@
 {% extends "nav.html" %}
 
 {%block extends%}
-<div class= "home-search-container">
-<h2 class= "search-title-text"> Welcome to ByteBoard </h2>
-<h2 class= "search-title-text"> From Code to Career: Your Path Begins Here! </h2>
-<form method = "GET" class="row" action = "{% url "job_view" %}">
+{% if user.is_authenticated and user.is_staff  %}
+  <div class= "home-search-container">
+  <h2 class= "search-title-text"> Welcome to ByteBoard </h2>
+  <h2 class= "search-title-text"> From Code to Career: Your Path Begins Here! </h2>
+  </div>
+
+ {% elif user.is_authenticated %}
+ <div class= "home-search-container">
+  <h2 class= "search-title-text"> Welcome to ByteBoard </h2>
+  <h2 class= "search-title-text"> From Code to Career: Your Path Begins Here! </h2> 
+  <form method = "GET" class="row" action = "{% url "job_view" %}">
      <div>
       <input type="text"  name="job_title_or_company_name"  placeholder="Job title, Company...">
      </div>
@@ -25,7 +32,8 @@
       <input class="btn" type="submit" value="Search" >
     </div>
     
-</form>
+ </form>
+{%endif%}
   
 
 

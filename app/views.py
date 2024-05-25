@@ -95,6 +95,7 @@ def registerRecruiter(request):
 
 
 @login_required(login_url="login/")
+@allowed_users(allowed_roles=["Admin"])
 def recruiterDash(request):
     my_list = []
     jobs = Job.objects.filter(company=request.user)

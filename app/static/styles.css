@@ -4,9 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Silkscreen", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+ 
 }
 
 body {
@@ -41,7 +39,6 @@ body {
 
 
 .row{
-  
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -98,6 +95,9 @@ body {
 
 
 .search-title-text{
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   padding-bottom: 30px; 
   color: white;
   font-size: 30px;
@@ -237,13 +237,23 @@ body {
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   width: 400px;
   height: 400px;
+  background-color: #8d878770;
  
 }
+.border div ul li span{
+  font-size: 20px;
+}
+.border div ul li {
+  font-size: 20px;
+}
 
+.border p {
+  font-size: 20px;
+}
 .jobtitle {
   font-size: 30px;
 }
@@ -253,3 +263,36 @@ body {
   justify-content: center;
 
 } */
+
+
+.btn1 {
+  margin-left: 400px;
+}
+
+.apply {
+  margin-top: 100px;
+}
+
+.view-header-container{
+  color: #4d3535;
+  display:flex;
+  justify-content: center;
+  margin-bottom: 30px;
+
+
+}
+
+.delete {
+  color: white;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+}
+
+.yep{
+  margin-left: 600px;
+  font-size: 15px;
+  margin-top: 10px;
+}

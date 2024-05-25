@@ -4,9 +4,11 @@
 
 <form  method="post">
     {% csrf_token %}
-    <p> Are you sure you want to delete {{job.title}}? </p>
+    <p class = "delete" > Are you sure you want to delete {{job.title}}? </p>
+    <div class = "yep">
     <input type="submit" value="Delete Job">  
      <button><a href="{% url 'recruiterdash' %}">Cancel</a></button>
+     <div>
 </form>
 
 {%endblock extends%}
