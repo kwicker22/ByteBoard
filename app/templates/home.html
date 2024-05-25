@@ -1,46 +1,9 @@
 {% extends "base.html" %}
 
 {%block content%}
-<nav>
-<div class= "site-navbar">
-          
-  <ul class="no-links">
-    <li> <h1>Welcome to ByteBoard</h1> </li>
-    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-     {% comment %} <li><a href="{% url 'job-list' %}">Job Listings</a></li>  {% endcomment %}
-  </ul>
-
-        {% if user.is_authenticated and user.is_staff  %}
-        <a href="{% url 'create-job' %}"><span class="mr-2 icon-add"></span>Publish Job</a>
-
-          
-            <li class="actual-links">
-              <a>Dashboard</a> 
-              <ul class="dropdown">
-                <li><a href="{% url 'recruiterdash' %}">Dashboard</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-              </ul>
-            </li>
-
-        {% elif user.is_authenticated %}
-
-        <li class="dropdown-container">
-          <a>Dashboard</a> 
-          <ul class="dropdown">
-            <li><a href="{% url 'userdash' %}">Dashboard</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-          </ul>
-        </li>
-        {% endif %}
-      </ul>
-
+<div class = "body">
+    {%include "search.html" %}  
+    {% comment %} {%include "jobview.html"%}  {% endcomment %}
 </div>
-</nav>
-<body>    
-<h1>Welcome to ByteBoard</h1>
-</body>
-
-
-<main>{%block extends%} {%endblock extends%} </main>
-            
+   
 {%endblock content%}

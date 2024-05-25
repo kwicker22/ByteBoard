@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<div class = "body">
+    <h2 class = "recruiter-dash"> Applications: </h2>
+    </div>
+    
+    <table id="table">
+            <tr>
+              <th> Applicant</th>
+              <th>Resume</th>
+            </tr>
+            <tr>  
+                    {%for applicant in applicants%}
+                    <tr>
+                        <td> {{applicant.first_name}}, {{applicant.last_name}}</td>
+                       
+                        <td><button> <a href= "/media/{{applicant.resume}}" target = "_blank">  <img src="{{applicant.resume}}" >Resume</button> </td>
+        
+                     </tr>
+                 {% endfor%}     
+             
+            </tr>
+{%endblock content%}

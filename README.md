@@ -25,14 +25,14 @@ Here are the baseline requirements. Your application must:
   - [x ] sign-up
   - [ x] login
   - [x ] logout
-  - [ ] create new data in the system that is associated with the user
+  - [ x] create new data in the system that is associated with the user
   - [ ] update data in the system that is associated with the user
   - [ ] read data from the system that is associated with the user
-  - [ ] delete data in the system that is associated with the user
-- [ ] Use Form objects to validate user data
+  - [ x] delete data in the system that is associated with the user
+- [ x] Use Form objects to validate user data
 - [ ] Use appropriate database relationship fields to model relationships between data
-- [ ] Restrict some pages to logged in users
-- [ ] Utilize Permissions (and possibly Groups) to control user authorization. For example:
+- [x ] Restrict some pages to logged in users
+- [x ] Utilize Permissions (and possibly Groups) to control user authorization. For example:
   - You app could have an admin or moderator user group that has more permissions than a standard user.
   - You app could involve two different kinds of users that use the website in complementary ways. For example:
     - Github Classroom: Teachers create assignments that they give to students

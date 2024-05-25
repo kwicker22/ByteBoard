@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{%block content%}
+<header>
+    <nav>
+      <div class= "site-navbar">
+                
+        <ul class="links">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          {% comment %} <li><a href="{% url 'job-list' %}">Job Listings</a></li>  {% endcomment %}
+      
+  
+              {% if user.is_authenticated and user.is_staff  %}
+              <a href="{% url 'create-job' %}"><span class="mr-2 icon-add"></span>Publish Job</a>
+  
+                
+                 
+                    
+                      <li><a href="{% url 'recruiterdash' %}">Dashboard</a></li>
+                      <li><a href="{% url 'logout' %}">Logout</a></li>
+                    
+               
+  
+              {% elif user.is_authenticated %}
+  
+              
+                  <li><a href="{% url 'userdash' %}">Dashboard</a></li>
+                  <li><a href="{% url 'logout' %}">Logout</a></li>
+                
+              {% endif %}
+            </ul>
+  
+      </div>
+    </nav>
+  </header>
+
+  <body>{%block extends%} {%endblock extends%} </body>
+{%endblock content%}

@@ -1,10 +1,12 @@
-{% extends "home.html" %}
+{% extends "nav.html" %}
 
-{%block content%}
+{%block extends %}
 
-<form action="{% url 'delete' %}" method="post">
+<form  method="post">
     {% csrf_token %}
-    <input type="submit" value="Delete Job">
+    <p> Are you sure you want to delete {{job.title}}? </p>
+    <input type="submit" value="Delete Job">  
+     <button><a href="{% url 'recruiterdash' %}">Cancel</a></button>
 </form>
 
-{%endblock content%}
+{%endblock extends%}

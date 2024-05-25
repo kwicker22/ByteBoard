@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
@@ -26,8 +26,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             return redirect("home")
-        else:
-            messages.info(request, "Username OR Password is incorrect")
+
     return render(request, "login.html", context)
 
 
@@ -38,16 +37,15 @@ def logoutUser(request):
 
 
 @login_required(login_url="login/")
-def base(request):
-    context = {}
-    return render(request, "base.html", context)
-
-
-@login_required(login_url="login/")
 def home(request):
-    jobs = Job.objects.filter(is_published=True)
-    context = {"jobs": jobs}
+    context = {}
     return render(request, "home.html", context)
+
+
+@unauthenticated_user
+@login_required(login_url="login/")
+def base(request):
+    return redirect("home")
 
 
 # User ONLY ///////////////////////////////////////////////////////////////////////////////
@@ -60,8 +58,6 @@ def registerApplicantPage(request):
         if form.is_valid():
             form.save()
 
-            group = Group.objects.get(name="user")
-            messages.success(request, (f"Account was created for {group}"))
             return redirect("login")
 
     context = {"form": form}
@@ -70,9 +66,9 @@ def registerApplicantPage(request):
 
 @login_required(login_url="login/")
 def userView(request):
-    jobs = Applicant.objects.filter(user=request.user)
+    applicant = Applicant.objects.filter(user=request.user)
     applications = []
-    for each in jobs:
+    for each in applicant:
         applications.append(each.job)
     context = {"applications": applications}
     return render(request, "userdashboard.html", context)
@@ -81,6 +77,7 @@ def userView(request):
 # Recruiter Only ////////////////////////////////////////////////////////////////////////////////////
 
 
+@unauthenticated_user
 def registerRecruiter(request):
     form = CreateUserForm()
 
@@ -90,19 +87,37 @@ def registerRecruiter(request):
             form.save()
 
             group = Group.objects.get(name="user")
-            messages.success(request, (f"Account was created for {group}"))
+
             return redirect("login")
 
     context = {"form": form}
     return render(request, "recruiter_register.html", context)
 
 
+@login_required(login_url="login/")
 def recruiterDash(request):
+    my_list = []
     jobs = Job.objects.filter(company=request.user)
-    context = {"jobs": jobs}
+    applicants = Applicant.objects.filter(job__in=jobs)
+    print(applicants)
+    context = {"jobs": jobs, "applicants": applicants}
     return render(request, "recruiterdashboard.html", context)
 
 
+def viewApplicant(request, id):
+    job = Job.objects.get(id=id)
+    applicants = Applicant.objects.filter(job=job)
+    context = {"applicants": applicants}
+    return render(request, "viewapplicants.html", context)
+
+
+def resume(request, id):
+    resume = Applicant.objects.get(id=id).resume
+    context = {"resume": resume}
+    return render(request, "resume.html", context)
+
+
+@login_required(login_url="login/")
 def JobListing(request):
     form = JobForm()
 
@@ -131,28 +146,90 @@ def JobListing(request):
                 job.is_published,
                 date_published,
             )
-            messages.success(request, (f"Job was created for {request.user}"))
+
             return redirect("recruiterdash")
 
     context = {"form": form}
     return render(request, "joblisting.html", context)
 
 
-def deleteJob(request):
-    job_listing = Job.objects.get(id=request.job.id)
+@login_required(login_url="login/")
+def deleteJob(request, id):
+    job_listing = Job.objects.get(id=id)
     if request.method == "POST":
         job_listing.delete()
-        messages.success(request, ("Job listing has been deleted"))
-        return redirect("recruiter")
+
+        return redirect("recruiterdash")
 
     context = {"job_listing": job_listing}
-    return render(request, "home.html", context)
+    return render(request, "deletejob.html", context)
 
 
-def jobview(request):
-    job_listings = Job.objects.all()
-    context = {"job_listings": job_listings}
+@login_required(login_url="login/")
+def updateJob(request, id):
+    instance = Job.objects.get(id=id)
+    form = JobEditForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+
+        return redirect("recruiterdash")
+    content = {"form": form}
+    return render(request, "updatejob.html", content)
+
+
+@login_required(login_url="login/")
+def search_result_view(request):
+
+    job_list = Job.objects.order_by("-date_published")
+    print(job_list)
+
+    if "job_title_or_company" in request.GET:
+        job_title_or_company_name = request.GET["job_title_or_company"]
+
+        if job_title_or_company_name:
+            job_list = job_list.filter(
+                title__icontains=job_title_or_company_name
+            ) | job_list.filter(company_name__icontains=job_title_or_company_name)
+            print(job_list)
+
+    if "city_or_state" in request.GET:
+        location = request.GET["city_or_state"]
+        if location:
+            job_list = job_list.filter(location__icontains=location)
+            print(job_list)
+
+    if "job_type" in request.GET:
+        job_type = request.GET["job_type"]
+        if job_type:
+            job_list = job_list.filter(job_type__iexact=job_type)
+            print(job_list)
+
+    paginator = Paginator(job_list, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "page_obj": page_obj,
+    }
     return render(request, "jobview.html", context)
 
-def updateJob(request):
-    
+
+@login_required(login_url="login/")
+def applyforJob(request, id):
+    form = ApplicantForm()
+    job_listing = Job.objects.get(id=id)
+    user = request.user
+    if request.method == "POST":
+        form = ApplicantForm(request.POST)
+        if form.is_valid():
+            job = form.save(commit=False)
+            first_name = request.POST.get("first_name")
+            last_name = request.POST.get("last_name")
+            resume = request.FILES.get("resume")
+
+            createApplicant(user, job_listing, first_name, last_name, resume)
+            print(user)
+
+            return redirect("userdash")
+
+    context = {"form": form}
+    return render(request, "applyforjob.html", context)

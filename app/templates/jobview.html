@@ -1,0 +1,55 @@
+{% extends "nav.html"%}
+
+{%block content%}
+<div class = "body">
+{%include 'search.html'%}
+</div>
+
+<section class = "background">
+       {% comment %} <p>hey</p> {% endcomment %}
+
+       <h2> Search </h2>
+     
+      <div class="job_view_container">
+        {% for job in page_obj%}
+        <div class = "border">
+          
+           <div>
+            <h3 class= "jobtitle">{{ job.title }}</h3>
+            <ul>
+              <li>
+                {% if job.job_type == '1' %}
+                <span>
+                  Full Time
+                </span>
+                {% elif job.job_type == '2'%}
+                <span>
+                  Part Time
+                </span>
+                {% else  %}
+                <span class>
+                  Internship
+                </span>
+                {% endif %}
+            </li>
+              <li> {{job.city}}, {{job.state}}</li>
+            </ul>
+            </div>
+            <p> Salary:  ${{job.salary}} </p>
+            <button><a href="{% url 'apply' job.id %}">Apply</a></button>
+            <p> Job Description: {{ job.description | safe | truncatechars:100}}</p>
+          
+        </div>
+        {% endfor %}
+      </div>
+  
+      
+      {% include 'paginator.html' %}
+  
+  </section>
+
+{%endblock content%}
+
+
+
+  

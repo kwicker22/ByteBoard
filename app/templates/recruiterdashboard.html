@@ -1,13 +1,31 @@
-{% extends "home.html" %}
+{% extends "nav.html"%}
 
 {%block extends%}
+<div class = "body">
+<h2 class = "recruiter-dash"> Recruiter Dashboard </h2>
+</div>
 
-<h2> Recruiter Dashboard </h2>
+<table id="table">
+        <tr>
+          <th>Title</th>
+          <th>Date Posted</th>
+          <th> View Applicants</th>
+          <th>Update or Delete</th>
+        </tr>
+        <tr>
+                {%for listing in jobs%}
+                <tr>
+                    <td> {{listing.title}}</td>
+                    <td> {{listing.date_published}}<td> 
+                    <span><a href = {% url 'applicants' listing.id %}> View</span>
+                     <td>
+                        <button> <a href= {%url 'delete' listing.id %}>Delete</button>
+                        <button> <a href= {%url 'update' listing.id%}>Edit</button>
+                   </td> 
+                 </tr>
+             {% endfor%}     
+         
+        </tr>
 
-{%for listing in jobs%}
-       <div> {{listing.company.username}}</div>
-       <div> {{listing.salary}}<div>
-       <div> {{listing}}
-{% endfor%}
 
 {%endblock extends%}

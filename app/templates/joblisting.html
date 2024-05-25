@@ -1,12 +1,9 @@
-{% extends "base.html" %}
+{% extends "nav.html" %}
 
- {% block content %}
-  <body>
-      <section class="site-section">
-
-        <div>
-            <h2>Post A Job</h2>
-        </div>
+ {% block extends %}
+        <p>
+            <h2 class = "job-header">Post A Job</h2>
+        </p>
              
           <form  method="POST" enctype="multipart/form-data">
           <div class="container">
@@ -79,6 +76,5 @@
   
           </div>
         </div>
-      </section>
 
-{% endblock content %}
+{% endblock extends %}

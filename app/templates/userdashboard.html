@@ -1,7 +1,28 @@
-{% extends "base.html.html" %}
+{% extends "nav.html" %}
 
 {%block extends%}
+<div class = "body">
+<h2 class = "dash-header"> User Dashboard </h2>
+<h3 class = "application-header"> Applications: </h3>
 
-<h2> User Dashboard </h2>
-    {{applications}}
+</div>
+<table id="table">
+        <tr>
+          <th>Company</th>
+          <th>Title</th>
+        </tr>
+        <tr>
+                {%for listing in applications%}
+                <tr>
+                    <td> {{listing.company}}</td>
+                    <td> {{listing.title}}</td> 
+                    
+                 </tr>
+             {% endfor%}     
+         
+        </tr>
+
+
+
+
 {%endblock extends%}

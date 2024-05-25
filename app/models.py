@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
+
+
+upload_storage = FileSystemStorage(location="/static", base_url="/uploads")
 
 
 # Create your models here.
@@ -25,7 +29,7 @@ class Job(models.Model):
     description = models.TextField()
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    job_type = models.CharField(choices=JobType, max_length=9, null=True)
+    job_type = models.CharField(choices=JobType, max_length=9)
     # category = models.ForeignKey(
     #     Category, related_name="Category", on_delete=models.CASCADE
     # )
@@ -64,12 +68,17 @@ def createJob(
 
 
 class Applicant(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=20, null=True)
+    last_name = models.CharField(max_length=20, null=True)
+    resume = models.ImageField(upload_to="", null=True, blank=True)
 
     def __str__(self):
         return self.job.title
 
 
-def createApplicant(user, job):
-    return Applicant.objects.create(user=user, job=job)
+def createApplicant(user, job, first_name, last_name, resume):
+    return Applicant.objects.create(
+        user=user, job=job, first_name=first_name, last_name=last_name, resume=resume
+    )

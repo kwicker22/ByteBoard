@@ -31,10 +31,7 @@ class JobForm(forms.ModelForm):
         ]
 
 
-class JobApplyForm(forms.ModelForm):
-    class Meta:
-        model = Applicant
-        fields = ["job"]
+
 
 
 class JobEditForm(forms.ModelForm):
@@ -42,13 +39,20 @@ class JobEditForm(forms.ModelForm):
         model = Job
         fields = [
             "title",
-            "description",
             "city",
             "state",
             "job_type",
-            # "category",
             "salary",
             "description",
             "date_published",
             "company_description",
         ]
+
+
+class ApplicantForm(forms.ModelForm):
+    class Meta:
+        model = Applicant
+        fields = ["first_name", "last_name", "resume"]
+
+
+# class SearchForm(forms.Form ):
